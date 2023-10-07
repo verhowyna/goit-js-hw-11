@@ -1,3 +1,6 @@
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
+
 import { refs } from "./refs.js";
 import { btnUp } from "./scroll.js";
 
@@ -5,12 +8,8 @@ const lightbox = new SimpleLightbox('.gallery a');
 
 export function makeCardMarkup(arr) {
     const markup = arr.map(({webformatURL, largeImageURL, tags, likes, views, comments, downloads}) => {
-        return `<div class="photo-card">
-        <div class="photo-container">
-        <a class="gallery__link" href="${largeImageURL}">
-    <img src="${webformatURL}" alt="${tags}" loading="lazy" />
-    </a>
-    </div>
+      return `<div class="photo-card">
+        <div class="photo-container"><a class="gallery__link" href="${largeImageURL}"><img src="${webformatURL}" alt="${tags}" loading="lazy" /></a></div>
     <div class="info">
       <p class="info-item">
         <b>Likes</b>

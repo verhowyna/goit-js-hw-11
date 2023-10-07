@@ -1,14 +1,14 @@
 import axios from "axios";
 import Notiflix from "notiflix";
 import { throttle } from "lodash";
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
 
 import { endMessage, loadMoreBtn, refs } from "./refs.js";
 import { makeCardMarkup } from "./helpers.js";
 
 const API_KEY = "39898871-04cb208ea2f2df61877868841";
 const BASE_URL = "https://pixabay.com/api/";
+
+const downPageBtn = document.querySelector('.btn-container');
 
 let query = "";
 let page = 1;
@@ -20,7 +20,7 @@ refs.loadMoreBtn.addEventListener("click", onLoad);
 function handleInput(evt) {
 query = evt.target.value;
 }
-//* Search photo and make card
+
 function onSearch(evt) {
     evt.preventDefault();
     page = 1;
@@ -36,25 +36,22 @@ function onSearch(evt) {
         Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
         refs.card.innerHTML = "";
         Notiflix.Loading.remove();
-        } else {
-            makeCardMarkup(hits);
+        downPageBtn.hidden = true;  
+      }
+        makeCardMarkup(hits);
             const totalPages = Math.ceil(totalHits/40);
             if (page === totalPages) {
               loadMoreBtn.hidden = true;
               endMessage.hidden = false;
-            } else {
+            } 
             loadMoreBtn.hidden = false;
-            }
             Notiflix.Loading.remove();
-            Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
         }
-}
-    )
+      )
     .catch(error =>
         console.log(error));
 }
 
-//* Button "Load more"
 function onLoad() {
   page += 1;
   loadMoreBtn.hidden = true;
@@ -67,9 +64,9 @@ function onLoad() {
             if (page === totalPages) {
               loadMoreBtn.hidden = true;
               endMessage.hidden = false;
-            } else {
+            } 
             loadMoreBtn.hidden = false;
-            }
+            
             Notiflix.Loading.remove();
         }
       )
@@ -77,7 +74,6 @@ function onLoad() {
         console.log(error));
 }
 
-//* fetch info with axios
 async function getPhoto(query) {
     const params = new URLSearchParams({
         key: API_KEY,
@@ -88,11 +84,8 @@ async function getPhoto(query) {
         page: page,
         per_page: 40,
     })
-    // console.log(params.toString());
-    const response = await axios.get(`${BASE_URL}?${params}`);
-    console.log(response);
-return response;
+    
+    const resp = await axios.get(`${BASE_URL}?${params}`);
+    console.log(resp);
+return resp;
 }
-
-//* Card markup
-
