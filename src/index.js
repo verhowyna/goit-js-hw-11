@@ -1,12 +1,9 @@
-
 import Notiflix from "notiflix";
 import { throttle } from "lodash";
 
 import { endMessage, loadMoreBtn, refs } from "./refs.js";
 import { makeCardMarkup } from "./helpers.js";
-import { getPhoto } from "./helpers.js";
-
-
+import { getPhoto } from "./axios.js";
 
 const downPageBtn = document.querySelector('.btn-container');
 
@@ -28,10 +25,10 @@ function onSearch(evt) {
     refs.card.innerHTML = "";
     endMessage.hidden = true;
     loadMoreBtn.hidden = true;
-  refs.btnUp.hidden = true;
-   if (refs.searchInput.value.trim() === "") { 
-     Notiflix.Notify.failure("Please enter anything in search form");
-     return;
+    refs.btnUp.hidden = true;
+    if (refs.searchInput.value.trim() === "") { 
+      Notiflix.Notify.failure("Please enter anything in search form");
+      return;
     }
     Notiflix.Loading.circle("Loading...");
 
