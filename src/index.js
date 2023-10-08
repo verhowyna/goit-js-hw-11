@@ -47,9 +47,10 @@ function onSearch(evt) {
             if (page === totalPages) {
               loadMoreBtn.hidden = true;
               endMessage.hidden = false;
-            } 
-            loadMoreBtn.hidden = false;
-            Notiflix.Loading.remove();
+            } else {
+             loadMoreBtn.hidden = false; 
+            }
+          Notiflix.Loading.remove();
         }
       )
     .catch(error =>
@@ -68,10 +69,11 @@ function onLoad() {
             if (page === totalPages) {
               loadMoreBtn.hidden = true;
               endMessage.hidden = false;
-            } 
-            loadMoreBtn.hidden = false;
-            Notiflix.Loading.remove();
-        }
+            } else {
+              loadMoreBtn.hidden = false;
+            }
+          Notiflix.Loading.remove();   
+        } 
       )
     .catch(error =>
         console.log(error));
