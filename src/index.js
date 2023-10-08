@@ -23,15 +23,16 @@ query = evt.target.value;
 
 function onSearch(evt) {
     evt.preventDefault();
-     if (refs.searchInput.value.trim() === "") { 
-     Notiflix.Notify.failure("Please enter anything in search form");
-     return;
-    }
+    
     page = 1;
     refs.card.innerHTML = "";
     endMessage.hidden = true;
     loadMoreBtn.hidden = true;
-    refs.btnUp.hidden = true;
+  refs.btnUp.hidden = true;
+   if (refs.searchInput.value.trim() === "") { 
+     Notiflix.Notify.failure("Please enter anything in search form");
+     return;
+    }
     Notiflix.Loading.circle("Loading...");
 
     getPhoto(query, page)
@@ -43,8 +44,9 @@ function onSearch(evt) {
         Notiflix.Loading.remove();
         downPageBtn.hidden = true;  
       }
-        makeCardMarkup(hits);
-            const totalPages = Math.ceil(totalHits/40);
+        makeCardMarkup(hits, totalHits);
+        const totalPages = Math.ceil(totalHits / 40);
+        Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
             if (page === totalPages) {
               loadMoreBtn.hidden = true;
               endMessage.hidden = false;
