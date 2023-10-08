@@ -31,7 +31,10 @@ function onSearch(evt) {
     Notiflix.Loading.circle("Loading...");
 
     getPhoto(query)
-    .then(({data: {hits, totalHits}}) => {
+      .then(({ data: { hits, totalHits } }) => {
+        if (refs.searchInput.value === "") { 
+          Notiflix.Notify.failure("Please enter anything in search form");
+        }
         if (hits.length === 0 || query.trim() === "") {
         Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
         refs.card.innerHTML = "";
@@ -66,7 +69,6 @@ function onLoad() {
               endMessage.hidden = false;
             } 
             loadMoreBtn.hidden = false;
-            
             Notiflix.Loading.remove();
         }
       )
@@ -75,17 +77,24 @@ function onLoad() {
 }
 
 async function getPhoto(query) {
-    const params = new URLSearchParams({
-        key: API_KEY,
-        q: query,
-        image_type: "photo",
-        orientation: "horizontal",
-        safesearch: true,
-        page: page,
-        per_page: 40,
-    })
-    
+  const params = new URLSearchParams({
+    key: API_KEY,
+    q: query,
+    image_type: "photo",
+    orientation: "horizontal",
+    safesearch: true,
+    page: page,
+    per_page: 40,
+  })
+  try {
     const resp = await axios.get(`${BASE_URL}?${params}`);
     console.log(resp);
-return resp;
+    return resp;
+  }
+  catch (error) {
+    throw new Error("Error");
+  }
 }
+    
+  
+
