@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import Notiflix from "notiflix";
 import { throttle } from "lodash";
 
@@ -23,6 +23,10 @@ query = evt.target.value;
 
 function onSearch(evt) {
     evt.preventDefault();
+     if (refs.searchInput.value.trim() === "") { 
+     Notiflix.Notify.failure("Please enter anything in search form");
+     return;
+    }
     page = 1;
     refs.card.innerHTML = "";
     endMessage.hidden = true;
@@ -32,10 +36,8 @@ function onSearch(evt) {
 
     getPhoto(query, page)
       .then(({ data: { hits, totalHits } }) => {
-        if (refs.searchInput.value === "") { 
-          Notiflix.Notify.failure("Please enter anything in search form");
-        }
-        if (hits.length === 0 || query.trim() === "") {
+       
+        if (hits.length === 0) {
         Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
         refs.card.innerHTML = "";
         Notiflix.Loading.remove();
