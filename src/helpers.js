@@ -4,7 +4,9 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 import { refs } from "./refs.js";
 import { btnUp } from "./scroll.js";
 
-const lightbox = new SimpleLightbox('.gallery a');
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+});
 
 export function makeCardMarkup(arr) {
     const markup = arr.map(({webformatURL, largeImageURL, tags, likes, views, comments, downloads}) => {
